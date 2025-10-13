@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Currículo - Giovanna Santos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="resume-header">
+            <div class="header-content">
+                <div class="personal-info">
+                    <h1 class="name" id="display-nome">Giovanna Santos</h1>
+                    <h2 class="title" id="display-titulo">Business Analytics & Dados</h2>
+                    <p class="subtitle" id="display-subtitulo">Estudante de Ciência e Tecnologia | Analista de Dados Júnior</p>
+                </div>
+                <button class="btn btn--secondary btn--sm edit-btn" onclick="editPersonalInfo()">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+            </div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span id="display-email">ggkiehair@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span id="display-telefone">(11) 94119-1015</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-linkedin"></i>
+                    <span id="display-linkedin">linkedin.com/in/avoiig</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span id="display-localizacao">São Paulo, SP</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn btn--primary" onclick="exportPDF()">
+                <i class="fas fa-file-pdf"></i> Exportar PDF
+            </button>
+            <button class="btn btn--outline" onclick="resetData()">
+                <i class="fas fa-undo"></i> Resetar
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <main class="resume-content">
+            <!-- Objetivo Profissional -->
+            <section class="resume-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-bullseye"></i> Objetivo Profissional</h3>
+                    <button class="btn btn--secondary btn--sm edit-btn" onclick="editObjective()">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                </div>
+                <div class="section-content">
+                    <p id="display-objetivo">Busco posições júnior, assistente ou estágio em Business Analytics e Dados, onde possa aplicar minha experiência em análise de dados, automação de processos e business intelligence para gerar insights estratégicos e apoiar a tomada de decisões baseadas em dados.</p>
+                </div>
+            </section>
+
+            <!-- Sobre Mim -->
+            <section class="resume-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-user"></i> Sobre Mim</h3>
+                    <button class="btn btn--secondary btn--sm edit-btn" onclick="editAbout()">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                </div>
+                <div class="section-content">
+                    <p id="display-sobre">Graduanda em Ciência e Tecnologia com foco em Engenharia Aeroespacial na UFABC, com experiência prática em Business Operations, análise de dados e automação. Minha trajetória combina estratégia, operações e tecnologia, com foco em transformar dados em insights acionáveis. Experiente em ferramentas de BI, linguagens de programação para análise de dados, e metodologias ágeis. Sou movida pela curiosidade e pelo desejo de transformar desafios complexos em soluções práticas e inovadoras através da análise de dados.</p>
+                </div>
+            </section>
+
+            <!-- Experiência Profissional -->
+            <section class="resume-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-briefcase"></i> Experiência Profissional</h3>
+                    <button class="btn btn--secondary btn--sm edit-btn" onclick="editExperience()">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                </div>
+                <div class="section-content" id="experiencias-list">
+                    <!-- Experiências serão carregadas via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Formação Acadêmica -->
+            <section class="resume-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-graduation-cap"></i> Formação Acadêmica</h3>
+                    <button class="btn btn--secondary btn--sm edit-btn" onclick="editEducation()">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                </div>
+                <div class="section-content" id="formacao-list">
+                    <!-- Formação será carregada via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Habilidades e Competências -->
+            <section class="resume-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-cogs"></i> Habilidades e Competências</h3>
+                    <button class="btn btn--secondary btn--sm edit-btn" onclick="editSkills()">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                </div>
+                <div class="skills-filters">
+                    <button class="skill-filter active" data-category="all">
+                        Todas <span class="skill-count" id="count-all">0</span>
+                    </button>
+                    <button class="skill-filter" data-category="analise_dados_bi">
+                        Análise de Dados <span class="skill-count" id="count-analise_dados_bi">0</span>
+                    </button>
+                    <button class="skill-filter" data-category="modelagem_estatistica">
+                        Modelagem <span class="skill-count" id="count-modelagem_estatistica">0</span>
+                    </button>
+                    <button class="skill-filter" data-category="financeiro_negocio">
+                        Financeiro <span class="skill-count" id="count-financeiro_negocio">0</span>
+                    </button>
+                    <button class="skill-filter" data-category="automacao_integracao">
+                        Automação <span class="skill-count" id="count-automacao_integracao">0</span>
+                    </button>
+                    <button class="skill-filter" data-category="cloud_infraestrutura">
+                        Cloud <span class="skill-count" id="count-cloud_infraestrutura">0</span>
+                    </button>
+                    <button class="skill-filter" data-category="machine_learning_ia">
+                        Machine Learning <span class="skill-count" id="count-machine_learning_ia">0</span>
+                    </button>
+                    <button class="skill-filter" data-category="metodologias_comunicacao">
+                        Metodologias <span class="skill-count" id="count-metodologias_comunicacao">0</span>
+                    </button>
+                    <button class="skill-filter" data-category="ferramentas_crm">
+                        CRM <span class="skill-count" id="count-ferramentas_crm">0</span>
+                    </button>
+                </div>
+                <div class="section-content" id="habilidades-list">
+                    <!-- Habilidades serão carregadas via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Idiomas -->
+            <section class="resume-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-language"></i> Idiomas</h3>
+                    <button class="btn btn--secondary btn--sm edit-btn" onclick="editLanguages()">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                </div>
+                <div class="section-content" id="idiomas-list">
+                    <!-- Idiomas serão carregados via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Certificações -->
+            <section class="resume-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-certificate"></i> Certificações</h3>
+                    <button class="btn btn--secondary btn--sm edit-btn" onclick="editCertifications()">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                </div>
+                <div class="section-content" id="certificacoes-list">
+                    <!-- Certificações serão carregadas via JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="modal-title">Editar</h4>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Conteúdo dinâmico -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" onclick="closeModal()">Cancelar</button>
+                <button class="btn btn--primary" id="save-btn" onclick="saveChanges()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="confirmation-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="confirmation-title">Confirmação</h4>
+                <button class="modal-close" onclick="closeConfirmationModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="confirmation-body">
+                <!-- Conteúdo da confirmação -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" onclick="closeConfirmationModal()">Cancelar</button>
+                <button class="btn btn--primary" id="confirm-btn">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de Feedback -->
+    <div id="toast" class="toast hidden">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Alterações salvas com sucesso!</span>
+    </div>
+
+    <!-- jsPDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
