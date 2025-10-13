@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xadrez da Melhoria Contínua</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">Xadrez</h1>
+            <p class="subtitle">Tabuleiro Gamificado - Em desenvolvimento</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Tabuleiro de Xadrez -->
+            <div class="board-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">👑</span>
+                            Tabuleiro Estratégico
+                        </h2>
+                        <p class="card-description">Visualização do progresso da equipe</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="chess-board" id="chessBoard">
+                            <!-- Tabuleiro será gerado dinamicamente -->
+                        </div>
+                        
+                        <!-- Pontuação -->
+                        <div class="score-section">
+                            <div class="score-display our-team">
+                                <div class="score-number" id="ourPoints">0</div>
+                                <div class="score-label">Nossa Equipe</div>
+                            </div>
+                            <div class="score-display rival-team">
+                                <div class="score-number" id="rivalPoints">0</div>
+                                <div class="score-label">Time Rival</div>
+                            </div>
+                        </div>
+
+                        <!-- Controles do Tabuleiro -->
+                        <div class="board-controls">
+                            <button class="btn btn-outline" onclick="resetBoard()">
+                                <span class="icon">🔄</span>
+                                Resetar Posições
+                            </button>
+                            <button class="btn btn-outline" onclick="exportToExcel()">
+                                <span class="icon">📊</span>
+                                Exportar Excel
+                            </button>
+                            <button class="btn btn-outline" onclick="toggleAutosave()">
+                                <span class="icon" id="autosaveIcon">💾</span>
+                                <span id="autosaveText">Autosave: ON</span>
+                            </button>
+                        </div>
+
+                        <!-- Indicador de movimento -->
+                        <div class="movement-indicator" id="movementIndicator">
+                            <p><strong>Vez de:</strong> <span id="currentTurn">Nossa Equipe</span></p>
+                            <p><strong>Pontos disponíveis:</strong> <span id="availablePoints">0</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculadora e Controles -->
+            <div class="controls-section">
+                <!-- Formulário de Adição -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">➕</span>
+                            Adicionar Problema/Melhoria
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <form id="problemForm" onsubmit="addProblem(event)">
+                            <div class="form-group">
+                                <label for="description">Descrição</label>
+                                <textarea id="description" placeholder="Descreva o problema ou melhoria..." required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="criticality">Criticidade</label>
+                                <select id="criticality" required>
+                                    <option value="">Selecione a criticidade</option>
+                                    <option value="baixa">Baixa (5 pts) - Peão</option>
+                                    <option value="media">Média (10 pts) - Cavalo/Bispo</option>
+                                    <option value="alta">Alta (20 pts) - Torre</option>
+                                    <option value="critica">Crítica (30 pts) - Rainha</option>
+                                    <option value="estrategica">Estratégica (50 pts) - Rei</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Adicionar ao Tabuleiro</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Lista de Problemas -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Problemas e Melhorias</h2>
+                        <p class="card-description"><span id="problemCount">0</span> itens cadastrados</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="problems-list" id="problemsList">
+                            <div class="empty-state">
+                                Nenhum problema cadastrado ainda
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guia de Regras -->
+        <div class="card rules-section">
+            <div class="card-header">
+                <h2 class="card-title">Como Funciona</h2>
+            </div>
+            <div class="card-content">
+                <div class="tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" onclick="showTab('regras')">Regras</button>
+                        <button class="tab-button" onclick="showTab('pecas')">Peças</button>
+                        <button class="tab-button" onclick="showTab('fluxo')">Fluxo Semanal</button>
+                        <button class="tab-button" onclick="showTab('historico')">Histórico</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="regras">
+                        <div class="rules-grid">
+                            <div class="rule-item">
+                                <h4>Objetivo</h4>
+                                <p>Transformar métricas de satisfação em um jogo estratégico onde o time evolui ao mitigar problemas e implementar melhorias. <strong>A movimentação das peças é desbloqueada pela pontuação acumulada.</strong></p>
+                            </div>
+                            <div class="rule-item">
+                                <h4>Movimentação</h4>
+                                <p>Cada time pode mover peças quando tem pontos suficientes. Se o time rival tem 15 pontos, pode mover qualquer peça de valor até 15 pontos. O mesmo vale para nossa equipe.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="pecas">
+                        <div class="pieces-grid" id="piecesGrid">
+                            <!-- Será preenchido dinamicamente -->
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="historico">
+                        <div class="history-list" id="historyList">
+                            <div class="empty-state">
+                                Nenhuma ação registrada ainda
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
